@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spectrum Corto</title>
+    <link rel="icon" type="image/png"
+        href="https://cdn.dribbble.com/users/7549673/screenshots/17206704/media/1210a9d0ec8af427967e735935861eeb.png?resize=400x300&vertical=center" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --panel-color: rgba(30, 30, 30, 0.7);
+            --text-color: #e0e0e0;
+            --accent-color: #7fffd4;
+            --accent-color-lighter: #a7ffe3;
+            --input-bg: rgba(44, 44, 44, 0.5);
+            --input-border: rgba(63, 63, 63, 0.7);
+            --btn-color: #212121;
+            --btn-hover: #424242;
+            --border-radius: 16px;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(to bottom, #121212, #1a1a1a);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        .container {
+            background-color: var(--panel-color);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 32px var(--shadow-color);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin-bottom: 25px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            height: 3px;
+            width: 30%;
+            background-color: var(--accent-color);
+            transition: width 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        h1:hover::after {
+            width: 80%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--accent-color-lighter);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        label:hover {
+            color: var(--accent-color);
+        }
+
+        input[type="text"] {
+            width: 95%;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 2px solid var(--input-border);
+            border-radius: var(--border-radius);
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+            outline: none;
+        }
+
+        input[type="text"]::placeholder {
+            color: #9e9e9e;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 12px rgba(127, 255, 212, 0.6);
+            animation: pulseBorder 2s infinite alternate;
+        }
+
+        @keyframes pulseBorder {
+            from {
+                box-shadow: 0 0 12px rgba(127, 255, 212, 0.4);
+            }
+
+            to {
+                box-shadow: 0 0 24px rgba(127, 255, 212, 0.8);
+            }
+        }
+
+        button {
+            background-color: rgba(33, 33, 33, 0.8);
+            color: var(--text-color);
+            padding: 16px 32px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 17px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            margin: 5px;
+            border-bottom: solid 2px var(--accent-color);
+            box-shadow: 0 4px 8px var(--shadow-color);
+            backdrop-filter: blur(5px);
+        }
+
+        button:hover {
+            background-color: rgba(66, 66, 66, 0.9);
+            box-shadow: 0 6px 18px var(--shadow-color);
+            transform: translateY(-3px);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 6px var(--shadow-color);
+        }
+
+        p {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: var(--input-bg);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            text-align: left;
+            color: var(--text-color);
+            word-break: break-all;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .notification {
+            margin-top: 15px;
+            padding: 14px 22px;
+            background-color: rgba(127, 255, 212, 0.1);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            text-align: center;
+            animation: slideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+        }
+
+        .error {
+            position: fixed;
+            top: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(220, 53, 69, 0.9);
+            color: #fff;
+            padding: 16px 26px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            font-size: 17px;
+            animation: slideInError 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, fadeOutError 4s forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInError {
+            from {
+                top: 0;
+                opacity: 0;
+            }
+
+            to {
+                top: 12%;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOutError {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            input[type="text"],
+            button,
+            p {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>⚠️SPECTRUM CORTO⚠️</h1>
+
+        <form id="urlForm" autocomplete="off">
+            <label for="urlInput">⚠️Generara con el corto. SOLO EL CORTO.⚠️</label>
+            <input type="text" id="urlInput" name="url" required
+                placeholder="Ej. https://walr.com/?transaction_id=... or just the ID" autocomplete="off">
+
+            <button type="submit">⚠️Spectrum Corto⚠️</button>
+        </form>
+
+        <h2 id="generatedTitle" class="hidden">Spectrum:</h2>
+        <p id="generatedUrl" class="hidden"></p>
+        <p id="notification" class="notification hidden">URL Copiado Automaticamente!</p>
+        <p id="error" class="error hidden"></p>
+    </div>
+
+
+
+
+
+
+    <script>
+        function copyToClipboard(url) {
+            navigator.clipboard.writeText(url).then(() => {
+                let notification = document.getElementById('notification');
+                notification.classList.remove('hidden');
+                setTimeout(() => {
+                    notification.classList.add('hidden');
+                }, 3000); // Reducir el tiempo a 3 segundos
+            }).catch(() => {
+                alert('Error al copiar al portapapeles');
+            });
+        }
+
+        function processUrlWithSpectrumId(url) {
+            try {
+                let generatedUrl = null;
+                const BASE_URL_SPECTRUM = "https://spectrumsurveys.com/surveydone?st=21&transaction_id=";
+
+                let spectrumId = null;
+
+                // 1. Limpieza inicial: Eliminar espacios en blanco al principio y al final
+                url = url.trim();
+
+                  // 2. Validación y uso directo del código si cumple con el formato (22 caracteres)
+                 if (/^[A-Za-z0-9]{22}$/.test(url)) {
+                    spectrumId = url;
+                    generatedUrl = `${BASE_URL_SPECTRUM}${spectrumId}`;
+                    return generatedUrl;
+                }
+
+                // 3. Búsqueda de parámetros conocidos (PRIORIZADO)
+                if (url.startsWith('http://') || url.startsWith('https://')) {
+                    const urlParams = new URL(url).searchParams;
+                    spectrumId = urlParams.get('transaction_id') || urlParams.get('trans_id') || urlParams.get('paid') || urlParams.get('id') || urlParams.get('rid');
+
+                    if (spectrumId && /^[A-Za-z0-9]{22}$/.test(spectrumId)) {  // Longitud específica de 22
+                        generatedUrl = `${BASE_URL_SPECTRUM}${spectrumId}`;
+                        return generatedUrl;
+                    }
+                }
+
+                // 4. Búsqueda de duplicados (REQUIERE LONGITUD ESPECÍFICA)
+                if (url.startsWith('http://') || url.startsWith('https://')) {
+                    const regexDupFinder = /([A-Za-z0-9]{22})(?:.*?\1)/g;  // Longitud específica de 22
+                    const matches = Array.from(url.matchAll(regexDupFinder));
+
+                    if (matches.length > 0) {
+                        spectrumId = matches[0][1];
+                        generatedUrl = `${BASE_URL_SPECTRUM}${spectrumId}`;
+                        return generatedUrl;
+                    }
+                }
+
+                // 5. Búsqueda inteligente del código (SOLO SI NO SE ENCUENTRA NADA MÁS) - YA NO ES NECESARIA PERO SE MANTIENE POR SI ACASO
+                if (url.startsWith('http://') || url.startsWith('https://')) {
+                    try {
+                        const urlObj = new URL(url);
+                        const segmentos = urlObj.pathname.split('/').filter(Boolean).concat(Array.from(urlObj.searchParams.values()));
+
+                        let mejorSegmento = null;
+                        let mejorPuntuacion = 0;
+
+                        for (const segmento of segmentos) {
+                            let puntuacion = 0;
+
+                            // Verificar Longitud (RANGO DE LONGITUD ESPECÍFICO)
+                            if (segmento.length === 22) {
+                                puntuacion++;
+                            }
+
+                            // Verificar Composición (Alfanumérico)
+                            if (/^[A-Za-z0-9]+$/.test(segmento)) {
+                                puntuacion++;
+                            }
+
+                            // Verificar Entorno (precedido/seguido por = o &)
+                            if (url.includes(`=${segmento}`) || url.includes(`&${segmento}`)) {
+                                puntuacion++;
+                            }
+
+                            // Actualizar el mejor segmento
+                            if (puntuacion > mejorPuntuacion) {
+                                mejorPuntuacion = puntuacion;
+                                mejorSegmento = segmento;
+                            }
+                        }
+
+                        if (mejorSegmento) {
+                            spectrumId = mejorSegmento;
+                             if (/^[A-Za-z0-9]{22}$/.test(spectrumId)) {
+                            generatedUrl = `${BASE_URL_SPECTRUM}${spectrumId}`;
+                            return generatedUrl;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn("Invalid URL format.  ", e);
+                        return null;
+                    }
+                }
+
+
+                console.warn("No Spectrum ID found using correct method.");
+                return null;
+            } catch (error) {
+                console.error('Error al procesar la URL:', error);
+                return null;
+            }
+        }
+
+        function dispatchUrl(url) {
+            if (!url.trim()) {
+                return Promise.reject("URL no válida: Ingrese un link correcto.");
+            }
+
+            return new Promise((resolve, reject) => {
+                let spectrumResult = processUrlWithSpectrumId(url);
+                if (spectrumResult) return resolve(spectrumResult);
+                else return reject("No se encontró un ID de Spectrum válido en el formato esperado (22 caracteres alfanuméricos).");  // MENSAJE DE ERROR ESPECÍFICO
+            });
+        }
+
+        function displayErrorMessage(message) {
+            const errorElement = document.getElementById('error');
+            errorElement.innerText = message;
+            errorElement.classList.remove('hidden');
+            setTimeout(() => {
+                errorElement.classList.add('hidden');
+                errorElement.innerText = '';
+            }, 5000);
+        }
+
+        document.getElementById('urlForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const urlInput = document.getElementById('urlInput');
+
+            dispatchUrl(urlInput.value)
+                .then(result => {
+                    const generatedUrlElement = document.getElementById('generatedUrl');
+                    const generatedTitleElement = document.getElementById('generatedTitle');
+                    const errorElement = document.getElementById('error');
+
+                    generatedTitleElement.classList.add('hidden');
+                    generatedUrlElement.classList.add('hidden');
+                    errorElement.classList.add('hidden');
+
+                    if (result && typeof result === 'string') {
+                        generatedTitleElement.classList.remove('hidden');
+                        generatedUrlElement.classList.remove('hidden');
+                        generatedUrlElement.innerText = result;
+                        copyToClipboard(result);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error en la solicitud:', error);
+                    displayErrorMessage(error);
+                });
+        });
+    </script>
+
+
+
+
+    
+</body>
+
+</html>
